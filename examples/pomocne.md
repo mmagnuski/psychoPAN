@@ -56,6 +56,23 @@ Jeżeli chcemy mieć losową kolejność plików możemy zrobić to na dwa sposo
   images = [visual.ImageStim(window, image=img_files[idx]) for idx in img_idx]
   ```
 
+## Wczytujemy pliki z dysku i sprawdzamy ich rozdzielczość i proporcje
+Gdy używamy obrazków różnej wielkości i chcemy wyświetlać je w porównywalnym rozmiarze (np. zawsze wysokość == 400 pix), zachowując proporcje boków. Poniżej wczytujemy obrazy z dysku i zachowujemy proporcje (szerokość / wysokość) w słowniku `size_prop`. Klucze tego słownika to nazwy obrazków, wartości to proporcja szerokości do wysokości.
+```python
+from PIL import Image
+
+img_dir = r'E:\proj\psychopy wrszt\stim'
+img_files = os.listdir(img_dir)
+img_files = [f for f in img_files if f.endswith('.jpg')]
+
+# wczytujemy
+size_prop = dict()
+for img in img_files:
+    image = Image.open(os.path.join(img_dir, img))
+    size_prop[img] = image.width / image.height
+```
+W kolejnych etapach eksperymentu możemy korzystać ze słownika `size_prop` aby ustawiać adekwatny rozmiar w pikselach, centymetrach czy stopniach kątowych, zachowując proporcje obrazka.
+
 ## Tworzymy i uzupełniamy DataFrame
 Na początku procedury:
 ```python
